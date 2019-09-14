@@ -11,6 +11,8 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
         btn2.setOnClickListener(view -> {
-
+            List<User> users = getUserWithBlogSchedulers().blockingGet();
+            setAdapter(users);
         });
         btn3.setOnClickListener(view -> {
 
@@ -59,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
                 .sorted((user1, user2) -> user1.userName.compareTo(user2.userName))).toList();
     }
 
+    public Single<List<User>> getUserWithBlogSchedulers() {
+        return Observable.defer(() -> Observable.fromIterable(getUserList()).subscribeOn(Schedulers.io()).filter(user -> user.hasBlog == true)
+                .sorted((user1, user2) -> user1.userName.compareTo(user2.userName))).toList().observeOn(AndroidSchedulers.mainThread());
+    }
+
     private ArrayList<User> getUserList() {
         ArrayList<User> users = new ArrayList<>();
 
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
