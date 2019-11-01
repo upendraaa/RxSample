@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
@@ -49,12 +50,16 @@ public class MainActivity extends AppCompatActivity {
             setAdapter(users);
         });
         btn3.setOnClickListener(view -> {
+            List<User> users = getUserWithBlog().blockingGet();
+            setGridLayoutManager(users);
 
         });
         btn4.setOnClickListener(view -> {
-
+            List<User> users = getUserWithBlog().blockingGet();
+            setPostAnimation(users);
         });
     }
+
 
 
     public Single<List<User>> getUserWithBlog() {
@@ -93,6 +98,26 @@ public class MainActivity extends AppCompatActivity {
     private void setAdapter(List<User> users) {
         sampleAdapter = new SampleAdapter((ArrayList<User>) users);
         layoutManger = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManger);
+        recyclerView.setAdapter(sampleAdapter);
+    }
+
+    private void setGridLayoutManager(List<User> users) {
+        sampleAdapter = new SampleAdapter((ArrayList<User>) users);
+        layoutManger = new GridLayoutManager(this, 3);
+        recyclerView.setLayoutManager(layoutManger);
+        recyclerView.setAdapter(sampleAdapter);
+    }
+
+    private void setPostAnimation(List<User> users) {
+        sampleAdapter = new SampleAdapter((ArrayList<User>) users);
+        layoutManger = new GridLayoutManager(this, 3);
+        layoutManger.postOnAnimation(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
         recyclerView.setLayoutManager(layoutManger);
         recyclerView.setAdapter(sampleAdapter);
     }

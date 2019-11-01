@@ -1,3 +1,22 @@
-Reactive Observable
+Reactive Observable (NetFlix , Push mechanism)
+
+<!--- Features -->
+Functional Programming (Return same value as Input, Not Mutate any input parameter)
+Declarative
+Thread Safe (As it doesn't mutate Input parameter0
+Consiseness
+FluentInterface (Operator names are like English Prose)
+Lazy Evalution(Observable lay Idle untill observer subscribe for it)
+EasyConcurrency (Subscribe on background thread and Observe on Main thread)
+
+<!--- Basics --->
+3 O's -> Observable, Observer, Operator
+RxJava in synchronous by defalult
+
+
+
+
+
+
 RxJava have some special kind of observable
 1) Single 
